@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .row {
+            display: flex;
+            font-size: 5px;
+        }
+        .col {
+            height: 1px;
+            width: 1px;
+        }
+    </style>
+</head>
+
+<body>
+    <img src="XYZimage.jpg" alt="" height="200px">
+    <script>
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        const img = new Image();
+
+        img.onload = function () {
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
+            const imageData = ctx.getImageData(0, 0, img.width, img.height).data;
+            imageheight = img.height
+            imagewidth = img.width
+            const body = document.body;
+            let c = 0;
+            for (let i = 1; i <= imageheight; i++) {
+                const newRow = document.createElement("div")
+                newRow.className = 'row'
+                body.appendChild(newRow)
+                for (let j = 1; j <= imagewidth; j++) {
+                    const newCol = document.createElement("div")
+                    newCol.id = `${i},${j}`;
+                    newCol.className = "col"
+                    newRow.appendChild(
+                        newCol
+                    )
+                    const r = imageData[c];
+                    const g = imageData[c + 1];
+                    const b = imageData[c + 2];
+                    const opacity = imageData[c + 3];
+                    newCol.style.backgroundColor = `rgba(${r},${g}, ${b}, ${opacity})`
+                    c += 4;
+                }
+            }
+        };
+        img.src = 'XYZimage.jpg';
+    </script>
+</body>
+
+</html>
